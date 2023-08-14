@@ -40,9 +40,9 @@ function PasswordField(props) {
                 value={value}
                 disabled={disable}
                 error={!!errors[name]}
-                secureTextEntry = {showPassword}
+                secureTextEntry = {!showPassword}
                 right={<TextInput.Icon 
-                        icon={showPassword ? 'eye-off': 'eye'} 
+                        icon={!showPassword ? 'eye-off': 'eye'} 
                         onPress={handleClickShowPassword}
                         size={20}
                       />}

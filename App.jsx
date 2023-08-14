@@ -12,7 +12,6 @@ import Home from './src/views/Home';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  
 
   return (
     <PaperProvider>

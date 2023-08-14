@@ -66,10 +66,10 @@ function LoginPage() {
         barStyle="dark-content"
       />
       <View style={styles.container}>
-        <ProgressBar
+        {logging && <ProgressBar
           indeterminate={true}
           className="fixed top-0 left-0 w-screen"
-        />
+        />}
         <View className="p-[30px] h-screen bg-white ">
           <Toast position="top" />
           <View className="mt-[10vh] h-[100%]">
