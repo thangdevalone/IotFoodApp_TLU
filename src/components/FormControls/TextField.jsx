@@ -19,7 +19,7 @@ export function TextField(props) {
   const {
     control,
     formState: {errors},
-  } = form;
+  } = form
   return (
     <View className={classNames({"mb-2":!errors[name]})}>
       <Controller

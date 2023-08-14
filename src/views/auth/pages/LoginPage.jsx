@@ -18,6 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {authActions} from '../AuthSlice';
 import Toast from 'react-native-toast-message';
+import PasswordField from '../../../components/FormControls/PasswordField';
 const styles = StyleSheet.create({
   container: {
     marginTop: StatusBar.currentHeight, // Adjust the marginTop to create space for the status bar
@@ -47,7 +48,7 @@ function LoginPage() {
       });
     }
     if (actionAuth == 'Success') {
-      navigation.navigate('Home');
+      navigation.replace('Home');
     }
   }, [actionAuth]);
   const form = useForm({
@@ -80,7 +81,7 @@ function LoginPage() {
             </View>
             <FormProvider {...form}>
               <TextField name="username" label="Mã sinh viên" />
-              <TextField name="password" label="Mật khẩu" />
+              <PasswordField name="password" label="Mật khẩu" />
               <TouchableOpacity onPress={() => setRemember(!isRemember)}>
                 <View className="flex flex-row items-center">
                   <CheckBox
