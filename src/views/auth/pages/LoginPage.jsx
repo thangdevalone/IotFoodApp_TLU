@@ -48,7 +48,7 @@ function LoginPage() {
       });
     }
     if (actionAuth == 'Success') {
-      navigation.replace('Home');
+      navigation.replace('AppLayout');
     }
   }, [actionAuth]);
   const form = useForm({

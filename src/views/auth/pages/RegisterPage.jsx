@@ -97,7 +97,7 @@ function RegisterPage() {
       });
     }
     if (actionAuth == 'Success') {
-      navigation.replace('Home');
+      navigation.replace('AppLayout');
     }
   }, [actionAuth]);
 

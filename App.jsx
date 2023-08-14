@@ -7,12 +7,11 @@ import { PaperProvider } from 'react-native-paper';
 import LoginPage from './src/views/auth/pages/LoginPage';
 import RegisterPage from './src/views/auth/pages/RegisterPage';
 
-import Home from './src/views/Home';
+import AppLayout from './src/components/AppLayout';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-
   return (
     <PaperProvider>
       <NavigationContainer>
@@ -28,8 +27,8 @@ const App = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="Home"
-            component={Home}
+            name="AppLayout"
+            component={AppLayout}
             options={{headerShown: false}}
           />
         </Stack.Navigator>
