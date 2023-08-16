@@ -3,7 +3,7 @@ import React from 'react';
 import Cart from '../../views/Cart';
 import Home from '../../views/Home';
 import Message from '../../views/Messages';
-import Profile from '../../views/Profile';
+import Profile from '../../views/Profile/Profile';
 import {
   BagBold,
   BagOutline,
