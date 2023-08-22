@@ -21,10 +21,11 @@ const App = () => {
   const dispatch = useDispatch();
   const accountName = useSelector((state)=> state.user.accountName);
   console.log(accountName);
-  const phone = useSelector((state)=> state.user.phone)
+  const phone = useSelector((state)=> state.user.phone);
+  const password = useSelector((state)=>state.user.password)
 
   const dataUser={
-    password: "Camapbeo2202", 
+    password: password, 
     sdt: phone, 
     accountName: accountName,
     imgUser: " "
@@ -33,8 +34,7 @@ const App = () => {
     dispatch(UserActions.updateInfo(dataUser))
     console.log(1);
   }
-  const user1 = useSelector(state => state.user.userInfo)
-  console.log(user1);
+
   return (
     <PaperProvider>
       <NavigationContainer>

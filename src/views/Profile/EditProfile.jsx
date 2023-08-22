@@ -4,26 +4,30 @@ import editProfile from "../../assets/editProfile.jpg"
 import { View, ImageBackground,StyleSheet,ScrollView, TouchableOpacity,Text,Span} from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Avatar, TextInput } from 'react-native-paper';
-
+import Toast from 'react-native-toast-message';
 import { useDispatch,useSelector } from "react-redux";
 import {authActions} from '../auth/AuthSlice';
 import { useState,useEffect } from "react";
 import { Copyright } from "../../components/Common";
 import { UserActions } from "../auth/UserSlice";
-import userApi from '../../api/userApi';
 import { useNavigation } from '@react-navigation/native';
+
 
 function EditProfile() {
   const navigation = useNavigation();
 
   const currentUser = useSelector((state)=>state.user.userInfo)
 
-
   const [name,setName] = useState(currentUser.accountName);
-  const [phone, setPhone] = useState(currentUser.sdt)
+  const [phone, setPhone] = useState(currentUser.sdt);
+  const [password, setPassword] = useState("")
 
   const [isFocusedName, setIsFocusedName] = useState(false);
   const [isFocusedPhone, setIsFocusedPhone] = useState(false);
+  const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const stateUpdate = useSelector((state)=> state.user.stateUpdate);
   const dispatch = useDispatch();
   const handleLogOut = ()=>{
     dispatch(authActions.logout());
@@ -34,13 +38,41 @@ function EditProfile() {
     const data = {
       phone: phone,
       accountName: name,
+      password: password,
     }
     dispatch(UserActions.setInfo(data))
     
-  },[phone,name])
+  },[phone,name,password])
+
+  useEffect(
+    ()=>{
+      if(stateUpdate === "fail"){
+        Toast.show({
+          type: 'error',
+          text1: 'Thất bại',
+          text2: 'Mật khẩu không chính xác',
+          position: "bottom",
+          bottomOffset: 160,
+        });
+        console.log(2)
+      }
+      if(stateUpdate === "success"){
+        Toast.show({
+          type: 'success',
+          text1: 'Thành công',
+          text2: 'Cập nhật thay đổi thành công',
+          position: "bottom",
+          bottomOffset: 160,
+        });
+      }
+      console.log(stateUpdate)
+    }
+  ,[stateUpdate])
+
 
     return (
-        <View className={"h-screen bg-[white]"}>
+        <View className={"h-screen bg-[white] relative"}>
+            <Toast position="bottom-[50px] absolute" />
             <ImageBackground source={editProfile} resizeMode="cover" className={"h-[50%]  z-2"}/>
             <View className={"flex flex-row relative justify-center z-3 mt-[-32vh]"}>
                 <View >
@@ -77,8 +109,6 @@ function EditProfile() {
                       styles.textInput,
                       isFocusedName && styles.focusedTextInput, // Sử dụng focusedTextInput khi focus
                     ]}
-                    
-                  
                 />
               </View>
               <View>
@@ -109,9 +139,36 @@ function EditProfile() {
                       ]}
                     />
               </View>
+              <View className = "mt-2">
+              <Text className={"font-semibold text-base text-black"}>
+                  Nhập mật khẩu xác nhận{' '}
+                  <Text style={{ color: 'red' }}> *</Text>
+                </Text>
+              <TextInput
+                    value={password}
+                    onChangeText={(e) => setPassword(e)}
+                    secureTextEntry={!showPassword}
+                    right={<TextInput.Icon 
+                      icon={!showPassword ? 'eye-off': 'eye'} 
+                      onPress={()=> setShowPassword(!showPassword)}
+                      size={20}
+                    />}
+                    onFocus={()=> setIsFocusedPassword(true)}
+                    onBlur={()=>setIsFocusedPassword(false)}
+                    theme={{
+                      colors: {
+                        primary: isFocusedPassword ? '#1f1716' : '#8f8f8f', // Màu nhãn và đường viền
+                      }
+                      }}
+                      style={[
+                        styles.textInput,
+                        isFocusedPassword && styles.focusedTextInput, // Sử dụng focusedTextInput khi focus
+                      ]}
+                    />
+              </View>
             </View>
 
-            <TouchableOpacity onPress={handleLogOut} className="flex flex-row justify-center mt-[20vh]">
+            <TouchableOpacity onPress={handleLogOut} className="flex flex-row justify-center mt-[9vh]">
               <Text className = "text-xl font-semibold" >
                 Đăng xuất
               </Text>

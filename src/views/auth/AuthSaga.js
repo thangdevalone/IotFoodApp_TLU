@@ -45,13 +45,16 @@ function* handleLogout() {
 }
 function* handleUpdateInfo(action){
   try{
-    console.log(action.payload)
     const res= yield call(userApi.updateInfo,action.payload);
-    const user = res.data
-    console.log("update",user);
-    yield put(UserActions.updateSuccess(user))
+    const user = res.data;
+    yield put(UserActions.updateSuccess(user));
+    yield delay(1000);
+    yield put(UserActions.resetState());
   }catch{
-
+    console.log("error")
+    yield put(UserActions.updateFail());
+    yield delay(1000);
+    yield put(UserActions.resetState());
   }
 }
 function *handleGetInfo(){
