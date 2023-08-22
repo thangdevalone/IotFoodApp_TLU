@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,9 @@ import StatusBarLayout from '../../components/StatusBarLayout';
 import { Avatar,List, MD3Colors } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import userApi from '../../api/userApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserActions } from '../auth/UserSlice';
 
 const myAccount = [
   {title:"Phương thức thanh toán",
@@ -25,6 +28,19 @@ const myAccount = [
 
 function Profile(props) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state)=>state.user.userInfo)
+  useEffect(()=>{
+    try{
+      dispatch(UserActions.getInfo())
+    }catch (error){
+      console.log(error);
+    }
+    },[currentUser.accountName])
+   
+
+
+
   return (
     <StatusBarLayout>
       <View className="m-[16px] h-screen bg-white ">
@@ -37,7 +53,7 @@ function Profile(props) {
               <Avatar.Icon size={24} icon="pencil" color="rgb(55 65 81)"  style={styles.avatar} onPress={() => navigation.navigate("EditProfile")} />
             </View>
           </View>
-          <Text className={"mx-auto my-auto text-[22px] font-bold text-black basis-[73%]"}>Phạm Thị Phượng</Text>
+          <Text className={"mx-auto my-auto text-[22px] font-bold text-black basis-[73%]"}>{currentUser.accountName}</Text>
         </View>
         <View >
           <List.Section>
