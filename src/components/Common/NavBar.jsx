@@ -2,8 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Cart from '../../views/Cart';
 import Home from '../../views/Home';
-import Message from '../../views/Messages';
 import Profile from '../../views/Profile/Profile';
+import MessagesScreen from '../../views/Messages/MessagesScreen';
+import { useNavigationState } from '@react-navigation/native';
 import {
   BagBold,
   BagOutline,
@@ -15,6 +16,7 @@ import {
   UserOutline,
 } from '../Icons';
 
+
 const Tab = createBottomTabNavigator();
 
 const iconComponents = {
@@ -25,6 +27,7 @@ const iconComponents = {
 };
 
 export function NavBar() {
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -40,6 +43,7 @@ export function NavBar() {
           height:55,
           paddingTop: 10,
         },
+        tabBarHideOnKeyboard:true,
         
     
       })}>
@@ -69,15 +73,15 @@ export function NavBar() {
       />
       <Tab.Screen
         name="Messages"
-        options={({navigation}) => ({
+        options={({navigation,route}) => ({
           tabBarLabelStyle: {
             fontWeight: navigation.isFocused() ? '600' : '400',
             fontSize:13,
             marginTop:5
           },
-          headerShown: false
+          headerShown: false,
         })}
-        component={Message}
+        component={MessagesScreen}
       />
       <Tab.Screen
         name="Profile"
