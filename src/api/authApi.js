@@ -2,7 +2,6 @@
 import axiosClient from './axiosClient';
 
 
-
 const authApi={
     login(data){
         const url="auth/login"
