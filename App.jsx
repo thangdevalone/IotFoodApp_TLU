@@ -17,7 +17,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
         
-          {/* <Stack.Screen
+           <Stack.Screen
             name="Login"
             component={LoginPage}
             options={{headerShown: false}}
@@ -26,7 +26,7 @@ const App = () => {
             name="Register"
             component={RegisterPage}
             options={{headerShown: false}}
-          /> */}
+          />
           <Stack.Screen
             name="AppLayout"
             component={AppLayout}

@@ -3,19 +3,20 @@ import React from 'react';
 import {Image, Text, View} from 'react-native';
 import {VoucherIcon} from '../../../components/Icons';
 import {colorDF1, colorDF2} from '../../../utils/colors';
+import { handlePrice } from '../../../utils/handle';
 
-ResDetail.propTypes = {
+FoodDetail.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
-function ResDetail(props) {
+function FoodDetail(props) {
   const {item} = props;
   return (
     <View className="w-[200px] mr-5">
       <Image
         style={{width: 200, height: 130}}
         className="rounded-xl"
-        source={{uri: `${item.imgRes}`}}
+        source={{uri: `${item.imgFood}`}}
       />
       <View className="flex items-center flex-row mt-2">
         <VoucherIcon size="18" color={colorDF2} />
@@ -28,17 +29,23 @@ function ResDetail(props) {
         numberOfLines={1}
         ellipsizeMode="tail"
         className="text-base  font-semibold capitalize">
-        {item.restaurantName}
+        {item.foodName}
+      </Text>
+      <Text
+        numberOfLines={1}
+        ellipsizeMode="tail"
+        className="text-[13px] text-gray-500">
+        {item.detail}
       </Text>
       <Text
         style={{color: colorDF1}}
         numberOfLines={1}
         ellipsizeMode="tail"
-        className="text-[13px]">
-        {item.time || 0} phút • {item.distance} km
+        className="text-[13px] mt-1">
+        <Text className="font-semibold">{handlePrice(item.price) || 0} đ</Text> • {item.nameRestaurantFood}
       </Text>
     </View>
   );
 }
 
-export default ResDetail;
+export default FoodDetail;

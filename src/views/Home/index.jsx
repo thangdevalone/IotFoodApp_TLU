@@ -4,18 +4,19 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   TextInput,
   View,
-  Text,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Banner from './components/Banner';
-import {colorDF1, colorDF2} from '../../utils/colors';
-import Suggest from './components/Suggest';
-import Swiper from 'react-native-swiper';
 import foodsApis from '../../api/foodsApi';
+import { colorDF1, colorDF2 } from '../../utils/colors';
+import Banner from './components/Banner';
 import ResDetail from './components/ResDetail';
+import Suggest from './components/Suggest';
+import { Divider } from 'react-native-paper';
+import FoodDetail from './components/FoodDetail';
 const styles = StyleSheet.create({
   container: {
     marginTop: StatusBar.currentHeight, // Adjust the marginTop to create space for the status bar
@@ -68,16 +69,23 @@ const styles = StyleSheet.create({
 });
 function Home() {
   const [recRestaurants, setRecRestaurants] = React.useState(null);
+  const [recFoods, setRecFoods] = React.useState(null);
   React.useEffect(() => {
     (async () => {
       try {
-        const res = await foodsApis.getRecommendRestaurant();
-        setRecRestaurants(res.data);
+        const [restaurantResponse, foodResponse] = await Promise.all([
+          foodsApis.getRecommendRestaurant(),
+          foodsApis.getRecommendFood(),
+        ]);
+  
+        setRecRestaurants(restaurantResponse.data);
+        setRecFoods(foodResponse.data);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
+  
   return (
     <SafeAreaView>
       <StatusBar
@@ -85,7 +93,7 @@ function Home() {
         translucent={true}
         barStyle="dark-content"
       />
-      <ScrollView className="bg-white">
+      <ScrollView showsHorizontalScrollIndicator={false} nestedScrollEnabled={true} className="bg-white">
         <View className="h-[30vh] max-h-[250px] min-h-[200px]">
           <Banner />
         </View>
@@ -113,7 +121,10 @@ function Home() {
 
         <View className="px-[20px]">
           <Suggest />
-          <Text
+          
+        </View>
+        <View className="px-[20px] mb-8">
+        <Text
             className="font-semibold my-3 "
             style={{color: colorDF1, fontSize: 22}}>
             Quán ăn đề xuất
@@ -125,7 +136,25 @@ function Home() {
               ))}
             </ScrollView>
           )}
+          
         </View>
+        <Divider style={{height:6}} className="bg-slate-200"/>
+        <View className="px-[20px] mb-4">
+        <Text
+            className="font-semibold my-3 "
+            style={{color: colorDF1, fontSize: 22}}>
+            Món ăn đề xuất
+          </Text>
+          {recFoods && (
+            <ScrollView horizontal={true}>
+              {recFoods.map(item => (
+                <FoodDetail item={item} key={item.id} />
+              ))}
+            </ScrollView>
+          )}
+          
+        </View>
+        
       </ScrollView>
     </SafeAreaView>
   );
